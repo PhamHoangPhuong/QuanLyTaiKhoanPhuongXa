@@ -1,0 +1,12 @@
+.page-breadcrumb {
+    padding: 1rem 1.5rem; /* chỉnh khoảng cách trên/dưới */
+    margin-top: -20px; /* đẩy breadcrumb lên trên để thẳng hàng với search bar */
+}
+.page-breadcrumb .page-title {
+    line-height: 70px; /* bằng chiều cao của navbar (70px) */
+    margin: 0;
+}
+
+
+
+

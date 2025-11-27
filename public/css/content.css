@@ -1,0 +1,33 @@
+.table td, .table th {
+    vertical-align: middle;   /* chữ giữa ô */
+    white-space: nowrap;      /* không xuống dòng */
+    padding: 0.5rem;          /* giảm độ cao hàng */
+}
+
+
+/* Sticky header + sticky footer (tên cột ở trên & dưới) */
+.table-wrap {
+    max-height: 500px;        /* chiều cao vùng cuộn */
+    overflow: auto;           /* cho phép cuộn dọc & ngang */
+}
+table.table thead th, table.table tfoot th {
+    position: sticky;
+    background: #f8f9fa;
+    z-index: 2;
+    white-space: nowrap;      /* không xuống dòng */
+    text-align: center;
+    vertical-align: middle;
+}
+table.table thead th { top: 0; }
+
+table.table tfoot th { bottom: 0; }
+
+/* Hàng gọn hơn, chữ không xuống dòng */
+table.table td, table.table th {
+    padding: .5rem;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* Cột actions nhỏ gọn */
+.col-actions { width: 1%; } /* co tối đa theo nội dung */
