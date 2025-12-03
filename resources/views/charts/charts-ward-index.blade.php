@@ -16,12 +16,12 @@
 
 @section('breadcrumb')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Excel Index</h1>
+        <h1 class="h3 mb-0 text-gray-800">Chart Index</h1>
     </div>
 @stop
 
 @section('content')
-    @include('partial.excel.excels')
+    @include('partial.chart.charts-ward')
 @stop
 
 @section('scripts')

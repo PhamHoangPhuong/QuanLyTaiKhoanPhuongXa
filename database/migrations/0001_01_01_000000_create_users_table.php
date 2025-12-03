@@ -180,8 +180,10 @@ return new class extends Migration
             $table->string('province_code')->nullable();
             //---------------------------------------------------------------
 
-            $table->string('name')->unique();
-            $table->string('email')->unique();
+            $table->string('username')->nullable()->unique();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('email')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 

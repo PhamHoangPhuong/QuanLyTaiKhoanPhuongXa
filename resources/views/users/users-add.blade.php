@@ -39,23 +39,44 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
-                                        <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="">
-                                        <!-- @error('category') 
+                                        <label for="name" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="name" name="username" placeholder="Username" value="">
+                                        @error('username') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="">
-                                        <!-- @error('category') 
+                                        <label for="name" class="form-label">Firstname</label>
+                                        <input type="text" class="form-control" id="name" name="first_name" placeholder="Firstname" value="">
+                                        @error('first_name') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
                                     </div>
                                 </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group mb-4">
+                                        <label for="name" class="form-label">Lastname</label>
+                                        <input type="text" class="form-control" id="name" name="last_name" placeholder="Lastname" value="">
+                                        @error('last_name') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group mb-4">
+                                        <label for="name" class="form-label">Email</label>
+                                        <input type="text" class="form-control" id="name" name="email" placeholder="Email" value="">
+                                        @error('email') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
+                                    </div>
+                                </div>
+
 
                                 <div class="col-md-6" hidden>
                                     <div class="form-group mb-4">
@@ -70,18 +91,21 @@
                                                 @endforeach
                                             @endisset
                                         </select>
+                                        @error('role_id') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
                                     </div>
                                 </div>
 
 
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
-                                        <label for="email" class="form-label">Tỉnh</label>
+                                        <label for="email" class="form-label">Thuộc tỉnh</label>
                                         <select class="form-control" id="province" name="province_id">
                                             @isset($provinces)
                                                 @foreach($provinces as $province)
                                                     <option value="{{ $province->province_id }}">
-                                                        {{ $province->province_id }} - {{ $province->ten_tinh }}
+                                                        {{ $province->ten_tinh }}
                                                     </option>
                                                 @endforeach
                                             @endisset
@@ -105,9 +129,9 @@
                                                 @endforeach
                                             @endisset
                                         </select>
-                                        <!-- @error('category') 
+                                        @error('ward_id') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -151,17 +175,17 @@
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
                                         <label for="password" class="form-label">Password</label>
-                                        <input type="text" class="form-control" id="password" name="password" placeholder="Password" value="">
-                                        <!-- @error('name') 
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="">
+                                        @error('password') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
                                         <label for="password_confirmation" class="form-label">Confirm Password</label>
-                                        <input type="text" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password">
+                                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password">
                                     </div>
                                 </div>
                             </div>

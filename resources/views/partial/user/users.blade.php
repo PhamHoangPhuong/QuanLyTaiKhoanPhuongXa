@@ -15,7 +15,7 @@
                             <i class="fas fa-plus"></i> Add New User
                         </a>
                         <!-- Pagination đặt trên đầu -->
-                        <nav>
+                        <!-- <nav>
                             <ul class="pagination pagination-sm mb-0">
                                 {{-- Previous --}}
 
@@ -79,7 +79,7 @@
                                 });
                                 </script>
                             </ul>
-                        </nav>
+                        </nav> -->
                     </div>
 
                     <div class="table-responsive">
@@ -88,6 +88,8 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Name</th>
+                                    <th>Firstname</th>
+                                    <th>Lastname</th>
                                     <th>Email</th>
                                     <th>Ward code</th>
                                     <th>Actions</th>
@@ -97,7 +99,9 @@
                                 @foreach($users as $index => $user)
                                 <tr>
                                     <td>{{$index + 1}}</td>
-                                    <td>{{$user->name}}</td>
+                                    <td>{{$user->username}}</td>
+                                    <td>{{$user->first_name}}</td>
+                                    <td>{{$user->last_name}}</td>
                                     <td>{{$user->email}}</td>
                                     <td>{{$user->ward_code}}</td>
                                     <td>
@@ -122,6 +126,8 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Name</th>
+                                    <th>Firstname</th>
+                                    <th>Lastname</th>
                                     <th>Email</th>
                                     <th>Ward code</th>
                                     <th class="col-actions">Actions</th>

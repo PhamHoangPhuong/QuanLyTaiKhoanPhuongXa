@@ -16,17 +16,27 @@
                             {{ session('success') }}
                         </div>
                     @endif
+
+
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="error-alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     <div class="d-flex justify-content-between align-items-center mb-3 gap-2">
     
                         <div class="d-flex align-items-center">
-                            <form action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center m-0 p-0">
-                                @csrf
-                                <input type="file" id="myFile" name="myFile" accept=".xlsx, .xls" style="display: none;">
-                                <label for="myFile" class="btn btn-success btn-sm me-2 mb-0">
-                                    <i class="fas fa-plus"></i> Import Excel
-                                </label>
-                                <button type="submit" class="btn btn-success btn-sm mb-0">Save</button>
-                            </form>
+                            @if(auth()->user()->role_id == 1)
+                                <form action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center m-0 p-0">
+                                    @csrf
+                                    <input type="file" id="myFile" name="myFile" accept=".xlsx, .xls" style="display: none;">
+                                    <label for="myFile" class="btn btn-success btn-sm me-2 mb-0">
+                                        <i class="fas fa-plus"></i> Import Excel
+                                    </label>
+                                    <button type="submit" class="btn btn-success btn-sm mb-0">Save</button>
+                                </form>
+                            @endif
 
                             <form method="GET" class="d-flex align-items-center ms-3 mb-0">
                                 <select name="nam_dieu_tra" class="form-control form-control-sm" style="width:150px;">
@@ -338,6 +348,20 @@
         function initPageScripts() {
         // Đợi 3 giây rồi ẩn alert nếu có
         setTimeout(hideSuccessAlert, 3000);
+        }
+        // Khi DOM đã sẵn sàng
+        document.addEventListener('DOMContentLoaded', initPageScripts);
+
+        function hideErrorAlert() {
+            // your custom javascript
+            const alert = document.getElementById('error-alert');
+            if (alert){
+                alert.style.display = 'none';
+            }
+        }
+        function initPageScripts() {
+        // Đợi 3 giây rồi ẩn alert nếu có
+        setTimeout(hideErrorAlert, 3000);
         }
         // Khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initPageScripts);

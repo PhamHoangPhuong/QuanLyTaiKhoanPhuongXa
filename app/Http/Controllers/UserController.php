@@ -98,18 +98,19 @@ class UserController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'username' => 'required|string|unique:users|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email'     => 'required|unique:users,email|email|max:191',
             'password' => 'required|string|min:6|confirmed',
             'role_id' => 'required',
+            'ward_id' => 'required',
         ], [
             'password.confirmed'  => 'Mật khẩu xác nhận không khớp',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors()
-            ], 422);
+            return back()->withErrors($validator);
         }
 
         $role = $request->input('role_id');
@@ -122,8 +123,12 @@ class UserController extends Controller
 
         $ward_code = $request->input('ward_code');
 
-        $name = $request->input('name');
+        $username = $request->input('username');
+        $firstname = $request->input('first_name');
+        $lastname = $request->input('last_name');
+
         $email = $request->input('email');
+
         $password = $request->input('password');
         $role = $request->input('role_id');
 
@@ -142,8 +147,8 @@ class UserController extends Controller
 
         $role = 1;
 
-        DB::insert('INSERT INTO users (ward_id, province_id, ward_code, province_code, name, email, password, role_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())', [
-            $ward, $province, $ward_code, $province_code, $name, $email, $hashedPassword, $role
+        DB::insert('INSERT INTO users (ward_id, province_id, ward_code, province_code, username, first_name, last_name, email, password, role_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())', [
+            $ward, $province, $ward_code, $province_code, $username, $firstname, $lastname, $email, $hashedPassword, $role
         ]);
 
         return redirect()->route('form.add-user')->with('success', 'Account created successfully!');
@@ -193,17 +198,17 @@ class UserController extends Controller
     public function update(Request $request, $id){
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email', 
-            'password' => 'nullable|string|min:6|confirmed', 
+            'username' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email'     => 'required|email|max:191',
+            'ward_id' => 'required',
         ], [
             'password.confirmed'  => 'Mật khẩu xác nhận không khớp',
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()
-                            ->withErrors($validator)
-                            ->withInput();
+            return back()->withErrors($validator);
         }
 
 
@@ -215,15 +220,17 @@ class UserController extends Controller
 
         $ward_code = $request->input('ward_code');
 
-        $name = $request->input('name');
+        $username = $request->input('username');
+        $firstname = $request->input('first_name');
+        $lastname = $request->input('last_name');
+
         $email = $request->input('email');
-        $password = $request->input('password');
-        $hashedPassword = Hash::make($password);
+
         
 
         DB::update('UPDATE users 
-                SET ward_id = ?, province_id = ?, ward_code = ?, province_code = ? , name = ?, email = ?, password = ?
-                WHERE id = ?', [$ward, $province, $province_code, $ward_code, $name, $email, $hashedPassword, $id]);
+                SET ward_id = ?, province_id = ?, ward_code = ?, province_code = ? , username = ?, first_name = ?, last_name = ?, email = ?
+                WHERE id = ?', [$ward, $province, $ward_code, $province_code, $username, $firstname, $lastname, $email, $id]);
 
         return redirect()->route('form.edit-user', ['id' => $id])->with('success', 'Account updated successfully!');
     }

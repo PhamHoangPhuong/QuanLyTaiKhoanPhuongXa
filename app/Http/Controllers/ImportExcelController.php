@@ -127,7 +127,7 @@ class ImportExcelController extends Controller
         $file = $request->file('myFile');
 
         if(!$file){
-            return response()->json(['message' => 'Yêu cầu gửi file'], 400);
+            return back()->with('error', 'Yêu cầu gửi file');
         }
 
         $extension = strtolower($file->getClientOriginalExtension());
@@ -135,7 +135,7 @@ class ImportExcelController extends Controller
         $validExtensions = ['xlsx', 'xls', 'csv'];
 
         if (!in_array($extension, $validExtensions)) {
-            return response()->json(['message' => 'File không đúng định dạng Excel'], 400);
+            return back()->with('error', 'File không đúng định dạng excel');
         }
 
         $path = $file->store('imports');

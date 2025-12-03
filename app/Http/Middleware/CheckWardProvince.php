@@ -30,7 +30,7 @@ class CheckWardProvince
                 return $next($request);
             }
         } else {
-            if (in_array((int)$user["role_id"], [1, 2])) {
+            if (in_array((int)$user["role_id"], [1, 2, 3])) {
                 return $next($request);
             }
         }

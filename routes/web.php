@@ -10,6 +10,8 @@ use App\Http\Controllers\WardReportController;
 use App\Http\Controllers\ProvinceReportController;
 use App\Http\Controllers\ViewSessionController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ChartWardController;
 
 
 Route::get('/', function () {
@@ -20,6 +22,8 @@ Route::get('/', function () {
 
 Route::get('/sign', [LoginController::class, 'sign'])->name('sign');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 
 Route::middleware(['logins'])->group(function () {
     Route::get('/home', [HomeController::class, 'home'])->name('home');
@@ -37,11 +41,8 @@ Route::middleware(['logins'])->group(function () {
     Route::get('/ajax/province-codes-admin', [UserController::class, 'getProvinceCode'])->name('ajax.getProvinceCodeAdmin');
     Route::get('/ajax/ward-code-admin', [UserController::class, 'getWardCode'])->name('ajax.getWardCodeAdmin');
 
+    Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     
-    Route::post('/register/admin/store', [AdminController::class, 'store'])->name('account.admin-store');
-    Route::get('/form/edit-account/{id}', [AdminController::class, 'form_edit_account'])->name('form.edit-account');
-    Route::delete('/delete-acount/{id}', [AdminController::class, 'delete'])->name('delete.account');
-
 
     Route::get('/view-ward-report', [WardReportController::class, 'view_ward_report'])->name('view.ward-report');
 
@@ -51,7 +52,11 @@ Route::middleware(['logins'])->group(function () {
     Route::group([
         'middleware' => 'checkWardProvince:1', 
     ], function () {
-        Route::post('/import-excel-queue', [ImportExcelController::class, 'importQueue'])->name('import.excel');
+        Route::post('/import-excel-queue', [ImportExcelController::class, 'importQueue'])->middleware('checkWardProvince:1')->name('import.excel');
+        Route::get('/change-ward-password/form/{id}', [AccountController::class, 'change_ward_password_form'])->middleware('checkWardProvince:1')->name('change.ward-password.form');
+        Route::put('/change-ward-password/update/{id}', [AccountController::class, 'change_ward_password_update'])->middleware('checkWardProvince:1')->name('change.ward-password.update');
+
+        Route::get('/chart-ward', [ChartWardController::class, 'chart_ward'])->name('chart.ward');
     });
 
     Route::group([
@@ -62,6 +67,8 @@ Route::middleware(['logins'])->group(function () {
         Route::get('/form-add-user', [UserController::class, 'form_add_user'])->middleware('checkWardProvince:2')->name('form.add-user');
         Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
 
+        Route::get('/change-province-password/form/{id}', [AccountController::class, 'change_province_password_form'])->middleware('checkWardProvince:2')->name('change.province-password.form');
+        Route::put('/change-province-password/update/{id}', [AccountController::class, 'change_province_password_update'])->middleware('checkWardProvince:2')->name('change.province-password.update');
 
         Route::get('/ajax/get-wards', [UserController::class, 'getWards'])->name('ajax.getWards');
 
@@ -80,6 +87,18 @@ Route::middleware(['logins'])->group(function () {
         Route::get('/view-ward-report', [WardReportController::class, 'view_ward_report'])->middleware('checkWardProvince:2')->name('view.ward-report');
         Route::delete('/delete-ward-report/{ward_report_id}', [WardReportController::class, 'delete'])->middleware('checkWardProvince:2')->name('delete.ward-report');
         Route::get('/export-wards', [WardReportController::class, 'export'])->middleware('checkWardProvince:2')->name('export.ward-report');
+
+        Route::get('/chart-province', [ChartProvinceController::class, 'chart_province'])->name('chart.province');
+        
+    });
+
+    Route::group([
+        'middleware' => 'checkWardProvince:3', 
+    ], function () {
+        Route::post('/register/admin/store', [AdminController::class, 'store'])->name('account.admin-store');
+        Route::get('/form/edit-account/{id}', [AdminController::class, 'form_edit_account'])->name('form.edit-account');
+        Route::put('/form/update-account/{id}', [AdminController::class, 'update'])->name('form.update-account');
+        Route::delete('/delete-acount/{id}', [AdminController::class, 'delete'])->name('delete.account');
         
     });
 

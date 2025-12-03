@@ -16,19 +16,10 @@
                             <form class="user" method="POST" action="{{ route('login') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="text" name="name" class="form-control form-control-user"
-                                        id="exampleInputEmail" aria-describedby="emailHelp"
-                                        placeholder="Your UserName" value="{{ old('name') }}">
-                                    {{-- Lỗi riêng của trường name --}}
-                                    @error('name')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="email" class="form-control form-control-user"
-                                        id="exampleInputEmail" aria-describedby="emailHelp"
-                                        placeholder="Enter Email Address..." value="{{ old('email') }}">
-                                    @error('email')
+                                    <input type="text" name="login" class="form-control form-control-user"
+                                        id="exampleInputEmail" placeholder="Username or email" value="{{ old('login') }}">
+
+                                    @error('login')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>

@@ -39,27 +39,50 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
-                                        <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ old('name', $user->name) }}">
-                                        <!-- @error('category') 
+                                        <label for="name" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="name" name="username" placeholder="Username" value="{{ old('username', $user->username) }}">
+                                        @error('username') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="{{ old('email', $user->email) }}">
-                                        <!-- @error('category') 
+                                        <label for="name" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="name" name="first_name" placeholder="First Name" value="{{ old('first_name', $user->first_name) }}">
+                                        @error('first_name') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group mb-4">
+                                        <label for="name" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="name" name="last_name" placeholder="Last Name" value="{{ old('last_name', $user->last_name) }}">
+                                        @error('last_name') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group mb-4">
+                                        <label for="name" class="form-label">Email</label>
+                                        <input type="text" class="form-control" id="name" name="email" placeholder="Email" value="{{ old('email', $user->email) }}">
+                                        @error('email') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
                                     </div>
                                 </div>
 
 
                                 <div class="col-md-6" hidden>
                                     <div class="form-group mb-4">
+                                        <@error('last_name') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror 
                                         <label for="email" class="form-label">Role</label>
                                         <select class="form-control" id="role" name="role_id">
                                             <!-- <option value="">-- Select Role --</option> -->
@@ -71,25 +94,28 @@
                                                 @endforeach
                                             @endisset
                                         </select>
+                                        @error('role_id') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
                                     </div>
                                 </div>
 
 
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
-                                        <label for="email" class="form-label">Tỉnh</label>
-                                        <select class="form-control" id="province" name="province_id">
+                                        <label for="email" class="form-label">Thuộc tỉnh</label>
+                                        <select class="form-control" id="province" name="province_id" >
                                             @isset($provinces)
                                                 @foreach($provinces as $province)
                                                     <option value="{{ $province->province_id }}" {{ old('province_id') == $province->province_id ? 'selected' : '' }}>
-                                                        {{ $province->province_id }} - {{ $province->ten_tinh }}
+                                                        {{ $province->ten_tinh }}
                                                     </option>
                                                 @endforeach
                                             @endisset
                                         </select>
-                                        <!-- @error('category') 
+                                        @error('province_id') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -106,9 +132,9 @@
                                                 @endforeach
                                             @endisset
                                         </select>
-                                        <!-- @error('category') 
+                                        @error('ward_id') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -149,13 +175,13 @@
                                 </div>
 
 
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <div class="form-group mb-4">
                                         <label for="password" class="form-label">Password</label>
                                         <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="{{ old('password', $user->password) }}"> 
-                                        <!-- @error('name') 
+                                        @error('name') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -164,7 +190,7 @@
                                         <label for="password_confirmation" class="form-label">Confirm Password</label>
                                         <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" value="{{ old('password', $user->password) }}">
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
 
 
@@ -263,61 +289,24 @@
     <script>
         $(document).ready(function () {
 
-            $('#Province').closest('.col-md-6').hide();
-            $('#wardProvinceCodeGroup').hide();  
-            $('#province_code_2').closest('.col-md-6').hide(); 
 
-            function updateVisibility() {
-                const role = $('#role').val();
-
-                if (role === '1') {
-                    $('#Province').closest('.col-md-6').hide();
-                } 
-                else if (role === '2') {
-                    $('#Province').closest('.col-md-6').show();
-                } 
-                else {
-                    $('#Province').closest('.col-md-6').hide();
-                }
+            // function updateVisibility() {
+            //     const role = $('#role').val();
 
 
-                if (role !== '1' && role !== '2') {
-                    $('#province_code').empty().append('<option value=""> Mã tỉnh </option>');
-                    $('#ward_code').empty().append('<option value=""> Mã phường </option>');
-                    $('#wardProvinceCodeGroup').hide();
-                    $('#province').val('');
-                    $('#ward').val('');
-                    $('#province_code_2').closest('.col-md-6').hide();
-                }
-            }
+            //     if (role !== '1' && role !== '2') {
+            //         $('#province_code').empty().append('<option value=""> Mã tỉnh </option>');
+            //         $('#ward_code').empty().append('<option value=""> Mã phường </option>');
+            //         $('#wardProvinceCodeGroup').hide();
+            //         $('#province').val('');
+            //         $('#ward').val('');
+            //         $('#province_code_2').closest('.col-md-6').hide();
+            //     }
+            // }
 
-            updateVisibility();
-            $('#role').on('change', updateVisibility);
+            // updateVisibility();
+            // $('#role').on('change', updateVisibility);
 
-
-            const initialProvince = $('#province').val();
-            if(initialProvince) {
-                $.get("{{ route('ajax.getProvinceCode') }}", { province_id: initialProvince }, function(res) {
-                    if (res.length > 0) {
-                        let code = res[0].ma_tinh;
-                        $('#province_code').empty().append(`<option value="${code}">${code}</option>`).val(code);
-                        $('#wardProvinceCodeGroup').show();
-                    }
-                });
-
-                $.get("{{ route('ajax.getWards') }}", { province_id: initialProvince }, function(res) {
-                    let wardSelect = $('#ward').empty().append('<option value="">-- Chọn phường --</option>');
-                    res.forEach(function (ward) {
-                        wardSelect.append(`<option value="${ward.ward_id}">${ward.ward_id} - ${ward.ten_phuong}</option>`);
-                    });
-
-
-                    const oldWard = '{{ old("ward_id", $user->ward_id ?? "") }}';
-                    if(oldWard) {
-                        $('#ward').val(oldWard).trigger('change');
-                    }
-                });
-            }
 
             $('#province').on('change', function () {
                 let provinceId = $(this).val();
@@ -330,26 +319,7 @@
                     return;
                 }
 
-                $.get("{{ route('ajax.getProvinceCode') }}", { province_id: provinceId }, function(res) {
-                    if (res.length > 0) {
-                        let code = res[0].ma_tinh;
-                        $('#province_code').empty().append(`<option value="${code}">${code}</option>`).val(code);
-                        $('#wardProvinceCodeGroup').show(); 
-                    }
-                });
-
-                $.get("{{ route('ajax.getWards') }}", { province_id: provinceId }, function(res) {
-                    let wardSelect = $('#ward').empty().append('<option value="">-- Chọn phường --</option>');
-                    res.forEach(function (ward) {
-                        wardSelect.append(`<option value="${ward.ward_id}">${ward.ward_id} - ${ward.ten_phuong}</option>`);
-                    });
-
-
-                    const oldWard = '{{ old("ward_id", $user->ward_id ?? "") }}';
-                    if(oldWard) {
-                        $('#ward').val(oldWard).trigger('change');
-                    }
-                });
+                
             });
 
             $('#ward').on('change', function () {
@@ -359,7 +329,7 @@
                     return;
                 }
 
-                $.get("{{ route('ajax.getWardCode') }}", { ward_id: wardId }, function(res) {
+                $.get("{{ route('ajax.getWardCodeUser') }}", { ward_id: wardId }, function(res) {
                     if (res.length > 0) {
                         let code = res[0].ma_phuong;
                         $('#ward_code').empty().append(`<option value="${code}">${code}</option>`).val(code);
@@ -367,27 +337,32 @@
                 });
             });
 
-            $('#Province').on('change', function () {
-                let provinceId = $(this).val();
-                const role = $('#role').val();
-
-                if (!provinceId || role !== '2') {
-                    $('#province_code_2').closest('.col-md-6').hide();
-                    $('#province_code_2').empty().append('<option value=""> Mã tỉnh </option>');
-                    return;
-                }
-
-                $.get("{{ route('ajax.getProvinceCode') }}", { province_id: provinceId }, function(res) {
+            const initialProvince = $('#province').val();
+            if(initialProvince) {
+                $.get("{{ route('ajax.getProvinceCodeUser') }}", { province_id: initialProvince }, function(res) {
                     if (res.length > 0) {
                         let code = res[0].ma_tinh;
-                        $('#province_code_2').empty().append(`<option value="${code}">${code}</option>`).val(code);
-                        $('#province_code_2').closest('.col-md-6').show();
-                    } else {
-                        $('#province_code_2').closest('.col-md-6').hide();
-                        $('#province_code_2').empty().append('<option value=""> Mã tỉnh </option>');
+                        $('#province_code').empty().append(`<option value="${code}">${code}</option>`);
                     }
                 });
-            });
+
+                $.get("{{ route('ajax.getWards') }}", { province_id: initialProvince }, function(res) {
+                    console.log(res);
+                    let wardSelect = $('#ward').empty().append('<option value="">-- Chọn phường --</option>');
+                    res.forEach(function (ward) {
+                        wardSelect.append(`<option value="${ward.ward_id}">${ward.ward_id} - ${ward.ten_phuong}</option>`);
+                    });
+
+                    const oldWard = '{{ old("ward_id") }}';
+                    if(oldWard) $('#ward').val(oldWard).trigger('change');
+
+                    const oldWard2 = '{{ old("ward_id", $user->ward_id ?? "") }}';
+                    if(oldWard2) {
+                        $('#ward').val(oldWard2).trigger('change');
+                    }
+                });
+            }
+
         });
     </script>
 

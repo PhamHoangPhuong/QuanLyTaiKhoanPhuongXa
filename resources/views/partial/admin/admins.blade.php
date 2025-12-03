@@ -105,8 +105,8 @@
                                     <td>{{$user->ten_tinh}}</td>
                                     <td>{{$user->ward_code}}</td>
                                     <td>{{$user->province_code}}</td>
-                                    <td>{{$user->name}}</td>
-                                    <th>{{$user->email}}</th>
+                                    <td>{{$user->username}}</td>
+                                    <td>{{$user->email}}</td>
                                     <th>{{$user->role}}</th>
                                     <td>
                                         <div class="d-flex gap-2">

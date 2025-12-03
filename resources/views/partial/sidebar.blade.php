@@ -46,14 +46,13 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Custom Components:</h6>
 
-                    @if(auth()->user()->role_id !== 3)
-                    <a class="collapse-item" href="{{ route('index') }}">Excel</a>
+                    @if(auth()->user()->role_id == 1)
+                        <a class="collapse-item" href="{{ route('change.ward-password.form',  auth()->user()->id) }}">Change Ward Password</a>
                     @endif
 
                     @if(auth()->user()->role_id == 2)
                         <a class="collapse-item" href="{{ route('view.user') }}">Ward User</a>
                     @endif
-
 
                     @if(auth()->user()->role_id == 2)
                     <a class="collapse-item" href="{{ route('view.ward-report')}}">Ward Report</a>
@@ -63,12 +62,24 @@
                         <a class="collapse-item" href="{{ route('view.province-report')}}">Province Report</a>
                     @endif
 
+                    @if(auth()->user()->role_id == 2)
+                        <a class="collapse-item" href="{{ route('change.province-password.form',  auth()->user()->id) }}">Change Province Password</a>
+                    @endif
+
                     @if(auth()->user()->role_id !== 3)
-                    <a class="collapse-item" href="{{ route('view.session')}}">Import Session</a>
+                        <a class="collapse-item" href="{{ route('view.session')}}">Import Session</a>
                     @endif
 
                     @if(auth()->user()->role_id == 3)
-                    <a class="collapse-item" href="{{ route('admin')}}">Account</a>
+                        <a class="collapse-item" href="{{ route('admin')}}">Account</a>
+                    @endif
+
+                    @if(auth()->user()->role_id !== 3)
+                        <a class="collapse-item" href="{{ route('index') }}">Excel</a>
+                    @endif
+
+                    @if(auth()->user()->role_id !== 3)
+                        <a class="collapse-item" href="{{ route('chart.ward') }}">Chart</a>
                     @endif
                 </div>
             </div>
@@ -94,15 +105,15 @@
         </li> -->
 
         <!-- Divider -->
-        <hr class="sidebar-divider">
+        <!-- <hr class="sidebar-divider"> -->
 
         <!-- Heading -->
-        <div class="sidebar-heading">
+        <!-- <div class="sidebar-heading">
             Addons
-        </div>
+        </div> -->
 
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                 aria-expanded="true" aria-controls="collapsePages">
                 <i class="fas fa-fw fa-folder"></i>
@@ -113,14 +124,14 @@
                     <h6 class="collapse-header">Login Screens:</h6>
                     <a class="collapse-item" href="login.html">Login</a>
                     <a class="collapse-item" href="register.html">Register</a>
-                    <!-- <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                    <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
                     <div class="collapse-divider"></div>
                     <h6 class="collapse-header">Other Pages:</h6>
                     <a class="collapse-item" href="404.html">404 Page</a>
-                    <a class="collapse-item" href="blank.html">Blank Page</a> -->
+                    <a class="collapse-item" href="blank.html">Blank Page</a>
                 </div>
             </div>
-        </li>
+        </li> -->
 
         <!-- Nav Item - Charts -->
         <!-- <li class="nav-item">

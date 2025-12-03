@@ -16,6 +16,13 @@
                             {{ session('success') }}
                         </div>
                     @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="error-alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     <form action="{{ route('export.province-report') }}" method="GET" enctype="multipart/form-data">
                         @csrf
                         <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Xuất dữ liệu excel </button>
@@ -306,3 +313,42 @@
     </div>
 </body>
 </html>
+
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
+    {{-- jquery.autocomplete.js --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.10/jquery.autocomplete.min.js"></script>
+    {{-- quick defined --}}
+    <script>
+        function hideSuccessAlert() {
+            // your custom javascript
+            const alert = document.getElementById('success-alert');
+            if (alert){
+                alert.style.display = 'none';
+            }
+        }
+        function initPageScripts() {
+        // Đợi 3 giây rồi ẩn alert nếu có
+        setTimeout(hideSuccessAlert, 3000);
+        }
+        // Khi DOM đã sẵn sàng
+        document.addEventListener('DOMContentLoaded', initPageScripts);
+
+
+        
+        function hideErrorAlert() {
+            // your custom javascript
+            const alert = document.getElementById('error-alert');
+            if (alert){
+                alert.style.display = 'none';
+            }
+        }
+        function initPageScripts() {
+        // Đợi 3 giây rồi ẩn alert nếu có
+        setTimeout(hideErrorAlert, 3000);
+        }
+        // Khi DOM đã sẵn sàng
+        document.addEventListener('DOMContentLoaded', initPageScripts);
+
+    </script>
+@stop

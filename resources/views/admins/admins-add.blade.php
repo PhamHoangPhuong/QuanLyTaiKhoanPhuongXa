@@ -44,21 +44,41 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
-                                        <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="">
-                                        <!-- @error('category') 
+                                        <label for="username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="">
+                                        @error('username') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="">
-                                        <!-- @error('category') 
+                                        <label for="username" class="form-label">Firstname</label>
+                                        <input type="text" class="form-control" id="username" name="first_name" placeholder="Firstname" value="">
+                                        @error('first_name') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group mb-4">
+                                        <label for="username" class="form-label">Lastname</label>
+                                        <input type="text" class="form-control" id="username" name="last_name" placeholder="Lastname" value="">
+                                        @error('last_name') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group mb-4">
+                                        <label for="username" class="form-label">Email</label>
+                                        <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="">
+                                        @error('email') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -75,6 +95,9 @@
                                                 @endforeach
                                             @endisset
                                         </select>
+                                        @error('role_id') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -92,9 +115,9 @@
                                                     @endforeach
                                                 @endisset
                                             </select>
-                                            <!-- @error('category') 
+                                            @error('province_id') 
                                                 <span class="text-danger">{{ $message }}</span> 
-                                            @enderror -->
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -111,15 +134,15 @@
                                                     @endforeach
                                                 @endisset
                                             </select>
-                                            <!-- @error('category') 
+                                            @error('ward_id') 
                                                 <span class="text-danger">{{ $message }}</span> 
-                                            @enderror -->
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
 
 
-                                <div class="form-group row col-md-6" id="wardProvinceCodeGroup"> 
+                                <div class="form-group row col-md-6" id="wardProvinceCodeGroup" hidden> 
                                     <div class="col-md-6">
                                         <div class="form-group mb-4">
                                             <label for="province_code" class="form-label">Mã tỉnh</label>
@@ -167,10 +190,13 @@
                                                 @endforeach
                                             @endisset
                                         </select>
+                                        @error('province_id') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6" hidden>
                                     <div class="form-group mb-4">
                                         <label for="email" class="form-label">Mã tỉnh</label>
                                         <select class="form-control" id="province_code_2" name="province_code_2">
@@ -191,17 +217,17 @@
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
                                         <label for="password" class="form-label">Password</label>
-                                        <input type="text" class="form-control" id="password" name="password" placeholder="Password" value="">
-                                        <!-- @error('name') 
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="">
+                                        @error('password') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
                                         <label for="password_confirmation" class="form-label">Confirm Password</label>
-                                        <input type="text" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password">
+                                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password">
                                     </div>
                                 </div>
                             </div>
@@ -312,6 +338,8 @@
                 $('#Province').closest('.col-md-6').hide();
 
                 $('#province_code_2').empty().append('<option value=""> Mã tỉnh </option>').closest('.col-md-6').hide();
+                $('#Province').val('');
+
             } 
             else if (role === '2') {
                 $('#wardProvinceGroup').hide();
@@ -320,6 +348,9 @@
                 $('#province_code').empty().append('<option value=""> Mã tỉnh </option>');
                 $('#ward_code').empty().append('<option value=""> Mã phường </option>');
                 $('#wardProvinceCodeGroup').hide();
+
+                $('#province').val('');
+                $('#ward').val('');
             } 
             else {
                 $('#wardProvinceGroup').hide();
@@ -329,12 +360,17 @@
                 $('#ward_code').empty().append('<option value=""> Mã phường </option>');
                 $('#wardProvinceCodeGroup').hide();
                 $('#province_code_2').empty().append('<option value=""> Mã tỉnh </option>').closest('.col-md-6').hide();
+
+                $('#province').val('');
+                $('#ward').val('');
+                $('#Province').val('');
             }
         }
 
         updateVisibility();
         $('#role').on('change', updateVisibility);
 
+        //Role 1
         $('#province').on('change', function () {
             let provinceId = $(this).val();
 
@@ -377,11 +413,11 @@
             });
         });
 
+        //Role 2
         $('#Province').on('change', function () {
             let provinceId = $(this).val();
-            const role = $('#role').val();
 
-            if (!provinceId || role !== '2') {
+            if (!provinceId) {
                 $('#province_code_2').closest('.col-md-6').hide();
                 $('#province_code_2').empty().append('<option value=""> Mã tỉnh </option>');
                 return;

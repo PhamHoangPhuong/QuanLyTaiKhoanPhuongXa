@@ -32,6 +32,11 @@ class WardReportController extends Controller
 
     public function export()
     {
+        $check = DB::select("SELECT COUNT(*) AS total FROM wards_report");
+        if ($check[0]->total == 0) {
+            return back()->with('error', 'Không có dữ liệu nào để xuất');
+        }
+
         $id = Auth::guard('web')->user()->getAttributes();
         $province_id = $id["province_id"];
         return Excel::download(new WardsExport($province_id), 'wards.xlsx');

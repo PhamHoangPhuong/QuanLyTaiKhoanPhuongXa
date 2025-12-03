@@ -5,6 +5,8 @@
 @section('style-libraries')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css">
+    
+    <link href="{{ asset('css/profile.css') }}" rel="stylesheet">
 @stop
 
 @section('styles')
@@ -16,14 +18,14 @@
 
 @section('breadcrumb')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Excel Index</h1>
+        <h1 class="h3 mb-0 text-gray-800">User Profile</h1>
     </div>
 @stop
 
 @section('content')
-    @include('partial.excel.excels')
+    @include('partial.userprofile')
 @stop
-
+    
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
     {{-- jquery.autocomplete.js --}}

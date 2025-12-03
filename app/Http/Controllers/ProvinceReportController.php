@@ -29,6 +29,12 @@ class ProvinceReportController extends Controller
     {
         //---------------------------------------------------
 
+
+        $check = DB::select("SELECT COUNT(*) AS total FROM wards_report WHERE province_id = ?", [Auth::user()->province_id]);
+        if ($check[0]->total == 0) {
+            return back()->with('error', 'Không có dữ liệu nào để tổng hợp');
+        }
+
         $ids = Auth::user()->getAttributes();
         $id = $ids["province_id"];
         $tinhList = DB::select("SELECT ward_id, nam_dieu_tra FROM wards_report
@@ -376,6 +382,12 @@ class ProvinceReportController extends Controller
 
     public function export()
     {
+
+        $check = DB::select("SELECT COUNT(*) AS total FROM provinces_report");
+        if ($check[0]->total == 0) {
+            return back()->with('error', 'Không có dữ liệu nào để xuất');
+        }
+
         $id = Auth::guard('web')->user()->getAttributes();
         $province_id = $id["province_id"];
         return Excel::download(new ProvincesExport($province_id), 'provinces.xlsx');

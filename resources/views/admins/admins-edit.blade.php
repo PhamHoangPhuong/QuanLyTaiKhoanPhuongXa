@@ -16,7 +16,7 @@
 
 @section('breadcrumb')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Edit User Ward</h1>
+        <h1 class="h3 mb-0 text-gray-800">Edit User Ward Province</h1>
     </div>
 @stop
 
@@ -31,7 +31,7 @@
                         {{ session('success') }}
                     </div>
                 @endif
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('form.update-account', $user->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     {{-- form-body --}}
@@ -40,22 +40,44 @@
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
                                         <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ old('name', $user->name) }}">
-                                        <!-- @error('category') 
+                                        <input type="text" class="form-control" id="name" name="username" placeholder="Username" value="{{ old('username', $user->username) }}">
+                                        @error('username') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group mb-4">
+                                        <label for="username" class="form-label">Firstname</label>
+                                        <input type="text" class="form-control" id="username" name="first_name" placeholder="Firstname" value="{{ old('first_name', $user->first_name) }}">
+                                        @error('first_name') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="{{ old('email', $user->email) }}">
-                                        <!-- @error('category') 
+                                        <label for="username" class="form-label">Lastname</label>
+                                        <input type="text" class="form-control" id="username" name="last_name" placeholder="Lastname" value="{{ old('last_name', $user->last_name) }}">
+                                        @error('last_name') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
                                     </div>
                                 </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group mb-4">
+                                        <label for="username" class="form-label">Email</label>
+                                        <input type="text" class="form-control" id="username" name="email" placeholder="Email" value="{{ old('email', $user->email) }}">
+                                        @error('email') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
+                                    </div>
+                                </div>
+                            
 
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
@@ -71,6 +93,9 @@
                                                 @endforeach
                                             @endisset
                                         </select>
+                                        @error('role_id') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -88,9 +113,9 @@
                                                     @endforeach
                                                 @endisset
                                             </select>
-                                            <!-- @error('category') 
+                                            @error('province_id') 
                                                 <span class="text-danger">{{ $message }}</span> 
-                                            @enderror -->
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -107,14 +132,14 @@
                                                     @endforeach
                                                 @endisset
                                             </select>
-                                            <!-- @error('category') 
+                                            @error('ward_id') 
                                                 <span class="text-danger">{{ $message }}</span> 
-                                            @enderror -->
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="form-group row col-md-6" id="wardProvinceCodeGroup"> 
+                                <div class="form-group row col-md-6" id="wardProvinceCodeGroup" hidden> 
                                     <div class="col-md-6">
                                         <div class="form-group mb-4">
                                             <label for="province_code" class="form-label">Mã tỉnh</label>
@@ -162,10 +187,13 @@
                                                 @endforeach
                                             @endisset
                                         </select>
+                                        @error('province_id') 
+                                            <span class="text-danger">{{ $message }}</span> 
+                                        @enderror
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6" hidden>
                                     <div class="form-group mb-4">
                                         <label for="email" class="form-label">Mã tỉnh</label>
                                         <select class="form-control" id="province_code_2" name="province_code_2">
@@ -181,13 +209,13 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <div class="form-group mb-4">
                                         <label for="password" class="form-label">Password</label>
                                         <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="{{ old('password', $user->password) }}"> 
-                                        <!-- @error('name') 
+                                        @error('name') 
                                             <span class="text-danger">{{ $message }}</span> 
-                                        @enderror -->
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -196,14 +224,14 @@
                                         <label for="password_confirmation" class="form-label">Confirm Password</label>
                                         <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" value="{{ old('password', $user->password) }}">
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
 
 
                             {{-- Buttons --}}
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="" class="btn btn-secondary">Back to list</a>
+                                    <a href="{{ route('admin') }}" class="btn btn-secondary">Back to list</a>
                                     <button type="submit" class="btn btn-primary">Edit Ward Account</button>
                                 </div>
                             </div>
@@ -297,11 +325,6 @@
     <script>
         $(document).ready(function () {
 
-        $('#wardProvinceGroup').hide(); 
-        $('#Province').closest('.col-md-6').hide();
-        $('#wardProvinceCodeGroup').hide();  
-        $('#province_code_2').closest('.col-md-6').hide(); 
-
         function updateVisibility() {
             const role = $('#role').val();
 
@@ -310,6 +333,8 @@
                 $('#Province').closest('.col-md-6').hide();
 
                 $('#province_code_2').empty().append('<option value=""> Mã tỉnh </option>').closest('.col-md-6').hide();
+                $('#Province').val('');
+
             } 
             else if (role === '2') {
                 $('#wardProvinceGroup').hide();
@@ -318,6 +343,7 @@
                 $('#province_code').empty().append('<option value=""> Mã tỉnh </option>');
                 $('#ward_code').empty().append('<option value=""> Mã phường </option>');
                 $('#wardProvinceCodeGroup').hide();
+
                 $('#province').val('');
                 $('#ward').val('');
             } 
@@ -329,6 +355,7 @@
                 $('#ward_code').empty().append('<option value=""> Mã phường </option>');
                 $('#wardProvinceCodeGroup').hide();
                 $('#province_code_2').empty().append('<option value=""> Mã tỉnh </option>').closest('.col-md-6').hide();
+
                 $('#province').val('');
                 $('#ward').val('');
                 $('#Province').val('');
@@ -338,29 +365,9 @@
         updateVisibility();
         $('#role').on('change', updateVisibility);
 
+        //Role 1
         $('#province').on('change', function () {
             let provinceId = $(this).val();
-
-            const initialProvince = $('#province').val();
-            if(initialProvince) {
-                $.get("{{ route('ajax.getProvinceCode') }}", { province_id: initialProvince }, function(res) {
-                    if (res.length > 0) {
-                        let code = res[0].ma_tinh;
-                        $('#province_code').empty().append(`<option value="${code}">${code}</option>`).val(code);
-                        $('#wardProvinceCodeGroup').show();
-                    }
-                });
-
-                $.get("{{ route('ajax.getWards') }}", { province_id: initialProvince }, function(res) {
-                    let wardSelect = $('#ward').empty().append('<option value="">-- Chọn phường --</option>');
-                    res.forEach(function (ward) {
-                        wardSelect.append(`<option value="${ward.ward_id}">${ward.ward_id} - ${ward.ten_phuong}</option>`);
-                    });
-
-                    const oldWard = '{{ old("ward_id") }}';
-                    if(oldWard) $('#ward').val(oldWard).trigger('change');
-                });
-            }
 
             if (!provinceId) {
                 $('#province_code').empty().append('<option value=""> Mã tỉnh </option>');
@@ -370,7 +377,7 @@
                 return;
             }
 
-            $.get("{{ route('ajax.getProvinceCode') }}", { province_id: provinceId }, function(res) {
+            $.get("{{ route('ajax.getProvinceCodeAdmin') }}", { province_id: provinceId }, function(res) {
                 if (res.length > 0) {
                     let code = res[0].ma_tinh;
                     $('#province_code').empty().append(`<option value="${code}">${code}</option>`).val(code);
@@ -380,11 +387,27 @@
 
             $.get("{{ route('ajax.getWardsAdmin') }}", { province_id: provinceId }, function(res) {
                 let wardSelect = $('#ward').empty().append('<option value="">-- Chọn phường --</option>');
+
+
+                $('#ward').val('');
+
                 res.forEach(function (ward) {
                     wardSelect.append(`<option value="${ward.ward_id}">${ward.ward_id} - ${ward.ten_phuong}</option>`);
                 });
+
+
+                let oldProvince = '{{ $user->province_id }}';
+                let currentSelectedProvince = provinceId;
+
+                if (oldProvince == currentSelectedProvince) {
+                    let oldWard = '{{ $user->ward_id }}';
+                    if (oldWard) {
+                        $('#ward').val(oldWard).change();
+                    }
+                }
             });
         });
+
 
         $('#ward').on('change', function () {
             let wardId = $(this).val();
@@ -393,7 +416,7 @@
                 return;
             }
 
-            $.get("{{ route('ajax.getWardCode') }}", { ward_id: wardId }, function(res) {
+            $.get("{{ route('ajax.getWardCodeAdmin') }}", { ward_id: wardId }, function(res) {
                 if (res.length > 0) {
                     let code = res[0].ma_phuong;
                     $('#ward_code').empty().append(`<option value="${code}">${code}</option>`).val(code);
@@ -401,27 +424,56 @@
             });
         });
 
+
+        let oldProvince = $('#province').val();
+        if (oldProvince) {
+            $('#province').trigger('change');
+        }
+
+
+
+        //Role 2
+        let oldRole2 = true;
         $('#Province').on('change', function () {
             let provinceId = $(this).val();
-            const role = $('#role').val();
 
-            if (!provinceId || role !== '2') {
+            if (!provinceId) {
                 $('#province_code_2').closest('.col-md-6').hide();
                 $('#province_code_2').empty().append('<option value=""> Mã tỉnh </option>');
                 return;
             }
 
-            $.get("{{ route('ajax.getProvinceCode') }}", { province_id: provinceId }, function(res) {
+            $.get("{{ route('ajax.getProvinceCodeAdmin') }}", { province_id: provinceId }, function(res) {
                 if (res.length > 0) {
                     let code = res[0].ma_tinh;
                     $('#province_code_2').empty().append(`<option value="${code}">${code}</option>`).val(code);
                     $('#province_code_2').closest('.col-md-6').show();
+
+
+                    if (oldRole2) {
+                        let oldProvinceCode2 = '{{ $user->province_code }}';
+                        let oldProvinceID   = '{{ $user->province_id }}';
+
+
+                        if (oldProvinceID == provinceId && oldProvinceCode2) {
+                            $('#province_code_2').val(oldProvinceCode2);
+                        }
+
+                        oldRole2 = false; 
+                    }
+
                 } else {
                     $('#province_code_2').closest('.col-md-6').hide();
                     $('#province_code_2').empty().append('<option value=""> Mã tỉnh </option>');
                 }
             });
         });
+
+
+        let oldProvince2 = $('#Province').val();
+        if (oldProvince2) {
+            $('#Province').trigger('change');
+        }
 
     });
     </script>

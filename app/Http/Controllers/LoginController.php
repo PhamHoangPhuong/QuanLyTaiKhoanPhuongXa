@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class LoginController extends Controller
 
@@ -16,67 +17,59 @@ class LoginController extends Controller
 
     }
 
-    public function login(Request $request){
-
+    public function login(Request $request)
+    {
         $validation = $request->validate([
-            'name' => ['required', 'string', 'min:6', 'max:20'],
-            'email'      => ['required', 'string', 'email', 'max:50'],
-            'password'   => ['required', 'string', 'min:6', 'max:20'],
+            'login'     => ['required', 'string', 'min:6', 'max:50'],
+            'password'  => ['required', 'string', 'min:6', 'max:20'],
         ], [
-            'name.required' => 'Yêu cầu bạn nhập tên người dùng',
-            'name.min' => 'Tên người dùng phải có ít nhất 6 ký tự',
-            'name.max' => 'Tên người dùng chỉ có tối đa 20 ký tự',
-            'email.required' => 'Yêu cầu bạn nhập email',
-            'email.email'    => 'Sai định dạng email',
-            'email.max'      => 'Email chỉ có tối đa 50 ký tự',
+            'login.required' => 'Vui lòng nhập username hoặc email',
+            'login.min' => 'Tối thiểu 6 ký tự',
+            'login.max' => 'Tối đa 50 ký tự',
             'password.required' => 'Yêu cầu bạn nhập mật khẩu',
-            'password.min'      => 'Mật khẩu phải có ít nhất 6 ký tự',
-            'password.max'      => 'Mật khẩu chỉ có tối đa 20 ký tự'
+            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
+            'password.max' => 'Mật khẩu chỉ có tối đa 20 ký tự'
         ]);
 
-        $email = strtolower(trim($validation['email']));
-        $username = trim($validation['name']);
+        $login = trim($validation['login']);
         $password = $validation['password'];
 
         $user = DB::selectOne(
-            'SELECT * FROM users WHERE email = ? OR name = ? LIMIT 1',
-            [$email, $username]
+            'SELECT * FROM users WHERE username = ? OR email = ? LIMIT 1',
+            [$login, $login]
         );
 
         if (!$user) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Tài khoản không tồn tại trong hệ thống'
-            ], 401);
+            return back()->withErrors(['login' => 'Tên người dùng hoặc email không tồn tại'])->withInput();
         }
 
-        if ($user->name !== $username) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Tên người dùng không tồn tại'
-            ], 401);
-        }
-
+    
         if (!Hash::check($password, $user->password)) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Email hoặc mật khẩu không đúng'
-            ], 401);
+            return back()->withErrors(['password' => 'Mật khẩu sai'])->withInput();
         }
+
 
         $credentials = [
-            'email'   => $validation['email'],
-            'name'   => $validation['name'],
-            'password'   => $validation['password'] 
+            filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username' => $login,
+            'password' => $password
         ];
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
- 
         }
 
         return redirect()->intended('home');
+    }
 
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+    
+        $request->session()->invalidate();
+    
+        $request->session()->regenerateToken();
+    
+        return redirect('sign');
     }
 
 }
