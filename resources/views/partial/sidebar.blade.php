@@ -78,8 +78,12 @@
                         <a class="collapse-item" href="{{ route('index') }}">Excel</a>
                     @endif
 
-                    @if(auth()->user()->role_id !== 3)
+                    @if(auth()->user()->role_id == 1)
                         <a class="collapse-item" href="{{ route('chart.ward') }}">Chart</a>
+                    @endif
+
+                    @if(auth()->user()->role_id == 2)
+                        <a class="collapse-item" href="{{ route('chart.province') }}">Chart</a>
                     @endif
                 </div>
             </div>

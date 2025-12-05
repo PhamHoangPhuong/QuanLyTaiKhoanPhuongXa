@@ -46,12 +46,14 @@
     <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
+    {{--Scripts highcharts common--}}
+
+
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="js/demo/chart-column-demo.js"></script>
+    <script src="js/demo/chart-circle-demo.js"></script>
     {{--Scripts link to file or js custom--}}
     @yield('scripts')
 </body>

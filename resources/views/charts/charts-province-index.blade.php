@@ -21,7 +21,7 @@
 @stop
 
 @section('content')
-    @include('partial.chart.charts-ward')
+    @include('partial.chart.charts-province')
 @stop
 
 @section('scripts')

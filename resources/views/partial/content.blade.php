@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
     <title>Document</title>
 </head>
 <body>
@@ -123,7 +126,7 @@
             <!-- Card Body -->
             <div class="card-body">
                 <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
+                    <div id="container-column-home"></div>
                 </div>
             </div>
         </div>
@@ -153,8 +156,8 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
+                <div class="chart-pie">
+                    <div id="container-circle-home"></div>
                 </div>
                 <div class="mt-4 text-center small">
                     <span class="mr-2">
@@ -324,6 +327,9 @@
     </div>
 </div>
 
+<script>
+    window.ROLE_ID = {{ Auth::user()->role_id }};
+</script>
 
 </body>
 </html>

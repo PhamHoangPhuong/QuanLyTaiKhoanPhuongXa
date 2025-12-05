@@ -86,12 +86,13 @@
                                     <th>No.</th>
                                     <th>Session code</th>
                                     <th>Ward name</th>
+                                    <th>Year</th>
                                     <th>Status</th>
                                     <th>Result</th>
                                     <th>Total success</th>
                                     <th>Total fail</th>
                                     <th>Queued at</th>
-                                    <th>Executed at</th>
+                                    <th>Execute at</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -131,12 +132,13 @@
                                     <th>No.</th>
                                     <th>Session code</th>
                                     <th>Ward name</th>
+                                    <th>Year</th>
                                     <th>Status</th>
                                     <th>Result</th>
                                     <th>Total success</th>
                                     <th>Total fail</th>
                                     <th>Queued at</th>
-                                    <th>Executed at</th>
+                                    <th>Execute at</th>
                                     <th class="col-actions">Actions</th>
                                 </tr>
                             </tfoot>

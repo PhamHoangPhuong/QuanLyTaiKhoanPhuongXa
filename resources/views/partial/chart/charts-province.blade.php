@@ -83,11 +83,11 @@
 
             <script>
 
-                //1.--------------------------------- CHART WARD DATA COLUMN ---------------------------------
+                //1.--------------------------------- CHART PROVINCE DATA COLUMN ---------------------------------
 
                 $(document).ready(function() {
                     $.ajax({
-                        url: '/chart-ward-data-column',
+                        url: '/chart-province-data-column',
                         type: 'GET',
                         dataType: 'json',
                         success: function(seriesDataColumn) {
@@ -115,11 +115,11 @@
                     });
                 });
 
-                //2.--------------------------------- CHART WARD DATA CIRCLE ---------------------------------
+                //2.--------------------------------- CHART PROVINCE DATA CIRCLE ---------------------------------
 
                 $(document).ready(function(){
                     $.ajax({
-                        url: 'chart-ward-data-circle',
+                        url: 'chart-province-data-circle',
                         type: 'GET',
                         dataType: 'json',
 
@@ -211,11 +211,11 @@
                     });
                 });
 
-                //3.--------------------------------- CHART WARD DATA CIRCLE_1 ---------------------------------
+                //3.--------------------------------- CHART PROVINCE DATA CIRCLE_1 ---------------------------------
 
                 $(document).ready(function(){
                     $.ajax({
-                        url: 'chart-ward-data-circle-1',
+                        url: 'chart-province-data-circle-1',
                         type: 'GET',
                         dataType: 'json',
 
@@ -307,11 +307,11 @@
                     });
                 });
 
-                //4.--------------------------------- CHART WARD DATA CIRCLE_2 ---------------------------------
+                //4.--------------------------------- CHART PROVINE DATA CIRCLE_2 ---------------------------------
 
                 $(document).ready(function(){
                     $.ajax({
-                        url: 'chart-ward-data-circle-2',
+                        url: 'chart-province-data-circle-2',
                         type: 'GET',
                         dataType: 'json',
 
@@ -403,11 +403,11 @@
                     });
                 });
 
-                //5.--------------------------------- CHART WARD DATA COLUMN_3 ---------------------------------
+                //5.--------------------------------- CHART PROVINCE DATA COLUMN_3 ---------------------------------
 
                 $(document).ready(function(){
                     $.ajax({
-                        url: 'chart-ward-data-circle-3',
+                        url: 'chart-province-data-circle-3',
                         type: 'GET',
                         dataType: 'json',
 
@@ -505,7 +505,3 @@
 </body>
 
 </html>
-
-
-
-

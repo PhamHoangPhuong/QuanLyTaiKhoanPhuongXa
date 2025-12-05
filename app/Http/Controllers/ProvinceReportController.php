@@ -50,16 +50,7 @@ class ProvinceReportController extends Controller
 
             $namDieuTra = $tinhList['nam_dieu_tra'];
 
-            $exists = DB::selectOne("
-                SELECT *
-                FROM provinces_report 
-                WHERE province_id = ? AND nam_dieu_tra = ? 
-            ", [$id, $namDieuTra]);
-
-            if ($exists) {
-                continue;
-            }
-
+        
             $row = DB::selectOne("
                 SELECT 
                     SUM(tong_dan_so) AS tong_dan_so,
@@ -274,102 +265,220 @@ class ProvinceReportController extends Controller
             // Tổng dân số nữ mù chữ ở mức độ 2 chưa hoàn thành lớp 5 độ tuổi từ 15 đến 25, từ 15 đến 35, từ 15 đến 60
             $count_dt_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5 = $row->Dt_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5;
 
-            
+            $exists = DB::selectOne("
+                SELECT *
+                FROM provinces_report 
+                WHERE province_id = ? AND nam_dieu_tra = ? 
+            ", [$id, $namDieuTra]);
 
-            DB::insert("
-                INSERT INTO provinces_report (
-                    province_id, nam_dieu_tra , tong_dan_so, dan_so_tu_15_den_25_tuoi, dan_so_tu_15_den_35_tuoi, dan_so_tu_15_den_60_tuoi, gioi_tinh_nam, gioi_tinh_nu, gioi_tinh_nu_tu_15_den_25_tuoi, gioi_tinh_nu_tu_15_den_35_tuoi, gioi_tinh_nu_tu_15_den_60_tuoi,
-            dan_toc, dan_toc_tu_15_den_25_tuoi, dan_toc_tu_15_den_35_tuoi, dan_toc_tu_15_den_60_tuoi, nu_dan_toc, nu_dan_toc_tu_15_den_25_tuoi, nu_dan_toc_tu_15_den_35_tuoi, nu_dan_toc_tu_15_den_60_tuoi,
+            if ($exists) {
+                DB::update("
+                    UPDATE provinces_report SET 
+                        tong_dan_so = ?,
+                        dan_so_tu_15_den_25_tuoi = ?,
+                        dan_so_tu_15_den_35_tuoi = ?,
+                        dan_so_tu_15_den_60_tuoi = ?,
+                        gioi_tinh_nam = ?, 
+                        gioi_tinh_nu = ?,
+                        gioi_tinh_nu_tu_15_den_25_tuoi = ?, 
+                        gioi_tinh_nu_tu_15_den_35_tuoi = ?, 
+                        gioi_tinh_nu_tu_15_den_60_tuoi = ?,
+                        dan_toc = ?,
+                        dan_toc_tu_15_den_25_tuoi = ?,
+                        dan_toc_tu_15_den_35_tuoi = ?,
+                        dan_toc_tu_15_den_60_tuoi = ?,
+                        nu_dan_toc = ?,
+                        nu_dan_toc_tu_15_den_25_tuoi = ?,
+                        nu_dan_toc_tu_15_den_35_tuoi = ?,
+                        nu_dan_toc_tu_15_den_60_tuoi = ?,
 
-                Ds_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
-                Ds_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
-                Ds_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+                        Ds_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3 = ?,
+                        Ds_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3 = ?,
+                        Ds_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3 = ?,
 
-                Ds_nu_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
-                Ds_nu_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
-                Ds_nu_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+                        Ds_nu_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3 = ?,
+                        Ds_nu_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3 = ?,
+                        Dt_nu_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3 = ?,
 
-                Dt_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
-                Dt_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
-                Dt_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+                        Dt_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3 = ?,
+                        Dt_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3 = ?,
+                        Dt_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3 = ?,
 
-                Dt_nu_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
-                Dt_nu_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
-                Dt_nu_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+                        Dt_nu_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3 = ?,
+                        Dt_nu_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3 = ?,
+                        Dt_nu_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3 = ?,
 
-                
+                        
 
-                Ds_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
-                Ds_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
-                Ds_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+                        Ds_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5 = ?,
+                        Ds_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5 = ?,
+                        Ds_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5 = ?,
 
-                Ds_nu_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
-                Ds_nu_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
-                Ds_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+                        Ds_nu_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5 = ?,
+                        Ds_nu_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5 = ?,
+                        Dt_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5 = ?,
 
-                Dt_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
-                Dt_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
-                Dt_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
-                
-                Dt_nu_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
-                Dt_nu_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
-                Dt_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5
-
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ", [
-                $id, 
-                $namDieuTra,
-                $countTotalPopulation,
-                $countBetween15To25,
-                $countBetween15To35,
-                $countBetween15To60,
-                $gioi_tinh_nam,
-                $gioi_tinh_nu,
-                $gioi_tinh_nu_tu_15_den_25_tuoi,
-                $gioi_tinh_nu_tu_15_den_35_tuoi,
-                $gioi_tinh_nu_tu_15_den_60_tuoi,
-                $countTongSoDanToc,
-                $countTongSoDanTocTu15Den25,
-                $countTongSoDanTocTu15Den35,
-                $countTongSoDanTocTu15Den60,
-                $countTongSoNuDanToc,
-                $countTongSoNuDanTocTu15Den25,
-                $countTongSoNuDanTocTu15Den35,
-                $countTongSoNuDanTocTu15Den60,
-
-                $count_ds_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
-                $count_ds_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
-                $count_ds_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
-
-                $count_ds_nu_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
-                $count_ds_nu_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
-                $count_ds_nu_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
-
-                $count_dt_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
-                $count_dt_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
-                $count_dt_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
-
-                $count_dt_nu_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
-                $count_dt_nu_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
-                $count_dt_nu_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+                        Dt_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5 = ?,
+                        Dt_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5 = ?,
+                        Dt_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5 = ?,
+                        
+                        Dt_nu_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5 = ?,
+                        Dt_nu_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5 = ?,
+                        Dt_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5 = ?
 
 
-                $count_ds_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
-                $count_ds_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
-                $count_ds_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+                    WHERE province_id = ? AND nam_dieu_tra = ?
+                ", [
+                    $countTotalPopulation,
+                    $countBetween15To25,
+                    $countBetween15To35,
+                    $countBetween15To60,
+                    $gioi_tinh_nam,
+                    $gioi_tinh_nu,
+                    $gioi_tinh_nu_tu_15_den_25_tuoi,
+                    $gioi_tinh_nu_tu_15_den_35_tuoi,
+                    $gioi_tinh_nu_tu_15_den_60_tuoi,
+                    $countTongSoDanToc,
+                    $countTongSoDanTocTu15Den25,
+                    $countTongSoDanTocTu15Den35,
+                    $countTongSoDanTocTu15Den60,
+                    $countTongSoNuDanToc,
+                    $countTongSoNuDanTocTu15Den25,
+                    $countTongSoNuDanTocTu15Den35,
+                    $countTongSoNuDanTocTu15Den60,
 
-                $count_ds_nu_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
-                $count_ds_nu_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
-                $count_ds_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+                    $count_ds_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
+                    $count_ds_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
+                    $count_ds_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
 
-                $count_dt_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
-                $count_dt_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
-                $count_dt_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+                    $count_ds_nu_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
+                    $count_ds_nu_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
+                    $count_ds_nu_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
 
-                $count_dt_nu_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
-                $count_dt_nu_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
-                $count_dt_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
-            ]);
+                    $count_dt_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
+                    $count_dt_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
+                    $count_dt_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+
+                    $count_dt_nu_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
+                    $count_dt_nu_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
+                    $count_dt_nu_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+
+
+                    $count_ds_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
+                    $count_ds_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
+                    $count_ds_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+
+                    $count_ds_nu_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
+                    $count_ds_nu_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
+                    $count_ds_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+
+                    $count_dt_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
+                    $count_dt_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
+                    $count_dt_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+
+                    $count_dt_nu_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
+                    $count_dt_nu_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
+                    $count_dt_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+
+                    $id,
+                    $namDieuTra
+                ]);
+            } else{
+                DB::insert("
+                    INSERT INTO provinces_report (
+                        province_id, nam_dieu_tra , tong_dan_so, dan_so_tu_15_den_25_tuoi, dan_so_tu_15_den_35_tuoi, dan_so_tu_15_den_60_tuoi, gioi_tinh_nam, gioi_tinh_nu, gioi_tinh_nu_tu_15_den_25_tuoi, gioi_tinh_nu_tu_15_den_35_tuoi, gioi_tinh_nu_tu_15_den_60_tuoi,
+                dan_toc, dan_toc_tu_15_den_25_tuoi, dan_toc_tu_15_den_35_tuoi, dan_toc_tu_15_den_60_tuoi, nu_dan_toc, nu_dan_toc_tu_15_den_25_tuoi, nu_dan_toc_tu_15_den_35_tuoi, nu_dan_toc_tu_15_den_60_tuoi,
+
+                    Ds_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
+                    Ds_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
+                    Ds_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+
+                    Ds_nu_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
+                    Ds_nu_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
+                    Ds_nu_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+
+                    Dt_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
+                    Dt_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
+                    Dt_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+
+                    Dt_nu_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
+                    Dt_nu_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
+                    Dt_nu_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+
+                    
+
+                    Ds_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
+                    Ds_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
+                    Ds_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+
+                    Ds_nu_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
+                    Ds_nu_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
+                    Ds_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+
+                    Dt_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
+                    Dt_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
+                    Dt_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+                    
+                    Dt_nu_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
+                    Dt_nu_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
+                    Dt_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5
+
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ", [
+                    $id, 
+                    $namDieuTra,
+                    $countTotalPopulation,
+                    $countBetween15To25,
+                    $countBetween15To35,
+                    $countBetween15To60,
+                    $gioi_tinh_nam,
+                    $gioi_tinh_nu,
+                    $gioi_tinh_nu_tu_15_den_25_tuoi,
+                    $gioi_tinh_nu_tu_15_den_35_tuoi,
+                    $gioi_tinh_nu_tu_15_den_60_tuoi,
+                    $countTongSoDanToc,
+                    $countTongSoDanTocTu15Den25,
+                    $countTongSoDanTocTu15Den35,
+                    $countTongSoDanTocTu15Den60,
+                    $countTongSoNuDanToc,
+                    $countTongSoNuDanTocTu15Den25,
+                    $countTongSoNuDanTocTu15Den35,
+                    $countTongSoNuDanTocTu15Den60,
+
+                    $count_ds_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
+                    $count_ds_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
+                    $count_ds_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+
+                    $count_ds_nu_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
+                    $count_ds_nu_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
+                    $count_ds_nu_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+
+                    $count_dt_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
+                    $count_dt_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
+                    $count_dt_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+
+                    $count_dt_nu_mu_chu_md_1_do_tuoi_15_den_25_cht_lop_3,
+                    $count_dt_nu_mu_chu_md_1_do_tuoi_15_den_35_cht_lop_3,
+                    $count_dt_nu_mu_chu_md_1_do_tuoi_15_den_60_cht_lop_3,
+
+
+                    $count_ds_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
+                    $count_ds_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
+                    $count_ds_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+
+                    $count_ds_nu_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
+                    $count_ds_nu_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
+                    $count_ds_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+
+                    $count_dt_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
+                    $count_dt_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
+                    $count_dt_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+
+                    $count_dt_nu_mu_chu_md_2_do_tuoi_15_den_25_cht_lop_5,
+                    $count_dt_nu_mu_chu_md_2_do_tuoi_15_den_35_cht_lop_5,
+                    $count_dt_nu_mu_chu_md_2_do_tuoi_15_den_60_cht_lop_5,
+                ]);
+            }
         }
         return redirect()->route('view.ward-report')->with('success', 'Tổng hợp dữ liệu tỉnh thành công');
     }

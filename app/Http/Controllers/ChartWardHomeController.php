@@ -4,24 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
-class ChartWardController extends Controller
+class ChartWardHomeController extends Controller
 {
-    public function chart_ward(){
-
-        return view('charts.charts-ward-index');
-
-    }
-
-    public function chartWardDataColumn()
+    public function chartWardDataColumnHome()
     {
-        $wards = Auth::user()->getAttributes();
-        $ward = $wards["ward_id"];
+        $ward_report = DB::selectOne('SELECT * FROM wards_report');
 
-        $ward_report = DB::selectOne('SELECT * FROM wards_report WHERE ward_id = ?', [$ward]);
-
-        $seriesDataColumn = [
+        $seriesDataColumnHome = [
             [
                 'name' => 'Ds mù chữ ở mức độ 1 chưa hoàn thành lớp 3',
                 'data' => [
@@ -88,19 +78,15 @@ class ChartWardController extends Controller
             ]
         ];
 
-        return response()->json($seriesDataColumn);
+        return response()->json($seriesDataColumnHome);
     }
 
+    public function chartWardDataCircleHome(){
 
-    public function chartWardDataCircle(){
-
-        $wards = Auth::user()->getAttributes();
-        $ward = $wards["ward_id"];
-
-        $ward_report = DB::selectOne('SELECT * FROM wards_report WHERE ward_id = ?', [$ward]);
+        $ward_report = DB::selectOne("SELECT * FROM wards_report");
 
 
-        $seriesDataCircle = [
+        $seriesDataCircleHome = [
             [
                 'name' => 'Giới tính nam',
                 'y' => $ward_report->gioi_tinh_nam
@@ -113,86 +99,8 @@ class ChartWardController extends Controller
         ];
 
         return response()->json([
-            'series' => $seriesDataCircle,
-            'total'  => $ward_report->tong_dan_so 
-        ]);
-    }
-
-    public function chartWardDataCircle_1(){
-
-        $wards = Auth::user()->getAttributes();
-        $ward = $wards["ward_id"];
-
-        $ward_report = DB::selectOne('SELECT * FROM wards_report WHERE ward_id = ?', [$ward]);
-
-
-        $seriesDataCircle_1 = [
-            [
-                'name' => 'Giới tính nam',
-                'y' => $ward_report->dan_so_tu_15_den_25_tuoi - $ward_report->gioi_tinh_nu_tu_15_den_25_tuoi
-            ],
-
-            [
-                'name' => 'Giới tính nữ',
-                'y' => $ward_report->gioi_tinh_nu_tu_15_den_25_tuoi
-            ]
-        ];
-
-        return response()->json([
-            'series_1' => $seriesDataCircle_1,
-            'total_1'  => $ward_report->dan_so_tu_15_den_25_tuoi
-        ]);
-    }
-
-    public function chartWardDataCircle_2(){
-
-        $wards = Auth::user()->getAttributes();
-        $ward = $wards["ward_id"];
-
-        $ward_report = DB::selectOne('SELECT * FROM wards_report WHERE ward_id = ?', [$ward]);
-
-
-        $seriesDataCircle_2 = [
-            [
-                'name' => 'Giới tính nam',
-                'y' => $ward_report->dan_so_tu_15_den_35_tuoi - $ward_report->gioi_tinh_nu_tu_15_den_35_tuoi
-            ],
-
-            [
-                'name' => 'Giới tính nữ',
-                'y' => $ward_report->gioi_tinh_nu_tu_15_den_35_tuoi
-            ]
-        ];
-
-        return response()->json([
-            'series_2' => $seriesDataCircle_2,
-            'total_2'  => $ward_report->dan_so_tu_15_den_35_tuoi
-        ]);
-    }
-
-    public function chartWardDataCircle_3(){
-
-        $wards = Auth::user()->getAttributes();
-        $ward = $wards["ward_id"];
-
-        $ward_report = DB::selectOne('SELECT * FROM wards_report WHERE ward_id = ?', [$ward]);
-
-
-        $seriesDataCircle_3 = [
-            [
-                'name' => 'Giới tính nam',
-                'y' => $ward_report->dan_so_tu_15_den_60_tuoi - $ward_report->gioi_tinh_nu_tu_15_den_60_tuoi
-            ],
-
-            [
-                'name' => 'Giới tính nữ',
-                'y' => $ward_report->gioi_tinh_nu_tu_15_den_60_tuoi
-            ]
-        ];
-
-        return response()->json([
-            'series_3' => $seriesDataCircle_3,
-            'total_3'  => $ward_report->dan_so_tu_15_den_60_tuoi
+            'series_home' => $seriesDataCircleHome,
+            'total_home'  => $ward_report->tong_dan_so 
         ]);
     }
 
