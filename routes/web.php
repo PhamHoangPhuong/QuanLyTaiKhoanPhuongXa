@@ -15,6 +15,7 @@ use App\Http\Controllers\ChartWardHomeController;
 use App\Http\Controllers\ChartWardController;
 use App\Http\Controllers\ChartProvinceHomeController;
 use App\Http\Controllers\ChartProvinceController;
+use App\Http\Controllers\InsertExcelController;
 
 
 Route::get('/', function () {
@@ -129,6 +130,8 @@ Route::middleware(['logins'])->group(function () {
         //Non home
 
         Route::get('/api/get-years-province', [ChartProvinceController::class,'getYearsByProvince']);
+
+        Route::post('/wards-cell-insert', [InsertExcelController::class, 'insert'])->name('wards.');
         
     });
 

@@ -28,9 +28,13 @@
                             <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Tổng hợp dữ liệu </button>
                         </form>
 
-                        <form action="{{ route('export.ward-report') }}" method="GET" enctype="multipart/form-data">
+                        <form action="{{ route('wards.insert') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Xuất dữ liệu excel </button>
+                            <input type="file" id="myFile" name="myFile" accept=".xlsx, .xls" style="display: none;">
+                            <label for="myFile" class="btn btn-success btn-sm me-2 mb-0">
+                                <i class="fas fa-plus"></i> Xuất dữ liệu excel
+                            </label>
+                            <button type="submit" class="btn btn-success btn-sm mb-0">Export</button>
                         </form>
                     </div>
 
