@@ -6,11 +6,37 @@ $(document).ready(function() {
             .closest('.card')
             .find('.card-header');
 
-        const selectColumn = $('<select class="form-control" id="yearColumnSelect" style="width:110px; margin-left:10px;">'
-            + '<option value="2023">2023</option>'
-            + '<option value="2024" selected>2024</option>'
-            + '<option value="2025">2025</option>'
-            + '</select>');
+        const selectColumn = $('<select class="form-control" id="yearColumnSelect" style="width:110px; margin-left:10px;"></select>');
+
+        let ajaxYearUrl = '';
+        if (window.ROLE_ID == 1) {
+            ajaxYearUrl = '/years-ward-column-home'; 
+        } else if (window.ROLE_ID == 2) {
+            ajaxYearUrl = '/years-province-column-home'; 
+        }
+
+        
+        $.ajax({
+            url: ajaxYearUrl,
+            type: 'GET',
+            dataType: 'json',
+            success: function($years_column) {
+                $years_column.forEach(function(item) {
+                    const option = $('<option></option>')
+                        .attr('value', item.nam_dieu_tra)
+                        .text(item.nam_dieu_tra);
+
+
+                    selectColumn.append(option);
+                });
+
+
+                loadChartColumnHome();
+            },
+            error: function(err) {
+                console.error('Không lấy được danh sách năm:', err);
+            }
+        });
 
         headerColumn.append(selectColumn);
 
@@ -21,40 +47,47 @@ $(document).ready(function() {
             ajaxUrl = '/chart-province-data-column-home'; 
         }
 
-        $.ajax({
-            url: ajaxUrl,
-            type: 'GET',
-            dataType: 'json',
-            success: function(seriesDataColumnHome) {
-                Highcharts.chart('container-column-home', {
-                    chart: { type: 'column' },
-                    title: { 
-                        text: window.ROLE_ID == 1 
-                            ? 'Tổng hợp tình hình số liệu công tác chống mù chữ - Ward' 
-                            : 'Tổng hợp tình hình số liệu công tác chống mù chữ - Province'
-                    },
-                    xAxis: {
-                        categories: window.ROLE_ID == 1
-                            ? ['Ds mù chữ từ 15 đến 25 tuổi', 'Ds mù chữ từ 15 đến 35 tuổi', 'Ds mù chữ từ 15 đến 60 tuổi']
-                            : ['Số liệu tỉnh 1', 'Số liệu tỉnh 2', 'Số liệu tỉnh 3'], // ví dụ Province
-                        crosshair: true,
-                        accessibility: { description: 'Categories' }
-                    },
-                    yAxis: {
-                        min: 0,
-                        title: { text: '1000 metric tons (MT)' }
-                    },
-                    tooltip: { valueSuffix: ' (1000 MT)' },
-                    plotOptions: { column: { pointPadding: 0.2, borderWidth: 0 } },
-                    series: seriesDataColumnHome
-                });
-            },
-            error: function(err) {
-                console.error('Lỗi khi lấy dữ liệu column:', err);
-            }
+
+        function loadChartColumnHome() {
+            $.ajax({
+                url: ajaxUrl,
+                type: 'GET',
+                data: { year: $('#yearColumnSelect').val() },
+                dataType: 'json',
+                success: function(seriesProvinceDataColumnHome) {
+                    Highcharts.chart('container-column-home', {
+                        chart: { type: 'column' },
+                        title: { 
+                            text: window.ROLE_ID == 1 
+                                ? 'Tổng hợp tình hình số liệu công tác chống mù chữ phường năm: ' + $('#yearColumnSelect').val()
+                                : 'Tổng hợp tình hình số liệu công tác chống mù chữ tỉnh năm: ' + $('#yearColumnSelect').val()
+                        },
+                        xAxis: {
+                            categories: ['Ds mù chữ từ 15 đến 25 tuổi', 'Ds mù chữ từ 15 đến 35 tuổi', 'Ds mù chữ từ 15 đến 60 tuổi'],
+                            crosshair: true,
+                            accessibility: { description: 'Categories' }
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: { text: '1000 metric tons (MT)' }
+                        },
+                        tooltip: { valueSuffix: ' (1000 MT)' },
+                        plotOptions: { column: { pointPadding: 0.2, borderWidth: 0 } },
+                        series: seriesProvinceDataColumnHome
+                    });
+                },
+                error: function(err) {
+                    console.error('Lỗi khi lấy dữ liệu column:', err);
+                }
+            });
+        }
+
+
+        $(document).on('change', '#yearColumnSelect', function() {
+            loadChartColumnHome();
         });
+
     } else {
         console.log('Admin không xem chart này');
     }
 });
-

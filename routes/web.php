@@ -44,10 +44,6 @@ Route::middleware(['logins'])->group(function () {
     Route::get('/ajax/province-codes-admin', [UserController::class, 'getProvinceCode'])->name('ajax.getProvinceCodeAdmin');
     Route::get('/ajax/ward-code-admin', [UserController::class, 'getWardCode'])->name('ajax.getWardCodeAdmin');
 
-    Route::get('/chart-ward-data-column-home', [ChartWardHomeController::class, 'chartWardDataColumnHome'])->name('chart.ward-data-column-home');
-
-    Route::get('/chart-ward-data-circle-home', [ChartWardHomeController::class, 'chartWardDataCircleHome'])->name('chart.ward-data-circle-home');
-
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     
 
@@ -65,11 +61,24 @@ Route::middleware(['logins'])->group(function () {
 
         Route::get('/chart-ward', [ChartWardController::class, 'chart_ward'])->name('chart.ward');
 
+        Route::get('/chart-ward-data-column-home', [ChartWardHomeController::class, 'chartWardDataColumnHome'])->name('chart.ward-data-column-home');
+
+        Route::get('/chart-ward-data-circle-home', [ChartWardHomeController::class, 'chartWardDataCircleHome'])->name('chart.ward-data-circle-home');
+
         Route::get('/chart-ward-data-column', [ChartWardController::class, 'chartWardDataColumn'])->name('chart.ward-data-column');
         Route::get('/chart-ward-data-circle', [ChartWardController::class, 'chartWardDataCircle'])->name('chart.ward-data-circle');
         Route::get('/chart-ward-data-circle-1', [ChartWardController::class, 'chartWardDataCircle_1'])->name('chart.ward-data-circle_1');
         Route::get('/chart-ward-data-circle-2', [ChartWardController::class, 'chartWardDataCircle_2'])->name('chart.ward-data-circle_2');
         Route::get('/chart-ward-data-circle-3', [ChartWardController::class, 'chartWardDataCircle_3'])->name('chart.ward-data-circle_3');
+
+        Route::get('/years-ward-column-home', [ChartWardHomeController::class, 'getYearsWardColumnHome']);
+
+        Route::get('/years-ward-circle-home', [ChartWardHomeController::class, 'getYearsWardCircleHome']);
+
+
+        //Non home
+
+        Route::get('/api/get-years-ward', [ChartWardController::class,'getYearsByWard']);
     });
 
     Route::group([
@@ -103,11 +112,23 @@ Route::middleware(['logins'])->group(function () {
 
         Route::get('/chart-province', [ChartProvinceController::class, 'chart_province'])->name('chart.province');
 
+        Route::get('/chart-province-data-column-home', [ChartProvinceHomeController::class, 'chartProvinceDataColumnHome'])->name('chart.province-data-column-home');
+
+        Route::get('/chart-province-data-circle-home', [ChartProvinceHomeController::class, 'chartProvinceDataCircleHome'])->name('chart.province-data-circle-home');
+
         Route::get('/chart-province-data-column', [ChartProvinceController::class, 'chartProvinceDataColumn'])->name('chart.province-data-column');
         Route::get('/chart-province-data-circle', [ChartProvinceController::class, 'chartProvinceDataCircle'])->name('chart.province-data-circle');
         Route::get('/chart-province-data-circle-1', [ChartProvinceController::class, 'chartProvinceDataCircle_1'])->name('chart.province-data-circle_1');
         Route::get('/chart-province-data-circle-2', [ChartProvinceController::class, 'chartProvinceDataCircle_2'])->name('chart.province-data-circle_2');
         Route::get('/chart-province-data-circle-3', [ChartProvinceController::class, 'chartProvinceDataCircle_3'])->name('chart.province-data-circle_3');
+
+        Route::get('/years-province-column-home', [ChartProvinceHomeController::class, 'getYearsProvinceColumnHome']);
+
+        Route::get('/years-province-circle-home', [ChartProvinceHomeController::class, 'getYearsProvinceCircleHome']);
+
+        //Non home
+
+        Route::get('/api/get-years-province', [ChartProvinceController::class,'getYearsByProvince']);
         
     });
 

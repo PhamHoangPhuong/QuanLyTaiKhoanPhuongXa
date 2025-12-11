@@ -198,10 +198,10 @@ class UserController extends Controller
     public function update(Request $request, $id){
 
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email'     => 'required|email|max:191',
+            'email' => 'required|unique:users,email,' . $id,
             'ward_id' => 'required',
         ], [
             'password.confirmed'  => 'Mật khẩu xác nhận không khớp',

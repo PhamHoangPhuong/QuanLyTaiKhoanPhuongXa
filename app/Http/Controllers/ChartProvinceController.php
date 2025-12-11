@@ -14,12 +14,22 @@ class ChartProvinceController extends Controller
 
     }
 
-    public function chartProvinceDataColumn()
+    public function getYearsByProvince()
+    {
+        $years_column = DB::select('SELECT DISTINCT nam_dieu_tra FROM provinces_report ORDER BY nam_dieu_tra ASC');
+
+        return response()->json($years_column);
+    }
+
+    public function chartProvinceDataColumn(Request $request)
     {
         $provinces = Auth::user()->getAttributes();
         $province = $provinces["province_id"];
 
-        $province_report = DB::selectOne('SELECT * FROM provinces_report WHERE province_id = ?', [$province]);
+        $namDieuTra = $request->input('years');
+
+        $province_report = DB::selectOne('SELECT * FROM provinces_report WHERE province_id = ? AND nam_dieu_tra = ?', [
+            $province, $namDieuTra]);
 
         $seriesDataColumn = [
             [
@@ -92,106 +102,129 @@ class ChartProvinceController extends Controller
     }
 
 
-    public function chartProvinceDataCircle(){
+    public function chartProvinceDataCircle(Request $request){
 
         $provinces = Auth::user()->getAttributes();
         $province = $provinces["province_id"];
+        $namDieuTra = $request->input('years');
 
-        $province_report = DB::selectOne('SELECT * FROM provinces_report WHERE province_id = ?', [$province]);
+        $province_report = DB::selectOne(
+            'SELECT * FROM provinces_report WHERE province_id = ? AND nam_dieu_tra = ?',
+            [$province, $namDieuTra]
+        );
 
 
-        $seriesDataCircle = [
-            [
-                'name' => 'Giới tính nam',
-                'y' => $province_report->gioi_tinh_nam
-            ],
-
-            [
-                'name' => 'Giới tính nữ',
-                'y' => $province_report->gioi_tinh_nu
-            ]
-        ];
+        if (!$province_report) {
+            return response()->json([
+                'series' => [
+                    ['name' => 'Giới tính nam', 'y' => 0],
+                    ['name' => 'Giới tính nữ', 'y' => 0]
+                ],
+                'total' => 0
+            ]);
+        }
 
         return response()->json([
-            'series' => $seriesDataCircle,
-            'total'  => $province_report->tong_dan_so 
+            'series' => [
+                ['name' => 'Giới tính nam', 'y' => $province_report->gioi_tinh_nam],
+                ['name' => 'Giới tính nữ', 'y' => $province_report->gioi_tinh_nu]
+            ],
+            'total'  => $province_report->tong_dan_so
         ]);
     }
 
-    public function chartProvinceDataCircle_1(){
+
+    public function chartProvinceDataCircle_1(Request $request){
 
         $provinces = Auth::user()->getAttributes();
         $province = $provinces["province_id"];
+        $namDieuTra = $request->input('years');
 
-        $province_report = DB::selectOne('SELECT * FROM provinces_report WHERE province_id = ?', [$province]);
+        $province_report = DB::selectOne(
+            'SELECT * FROM provinces_report WHERE province_id = ? AND nam_dieu_tra = ?',
+            [$province, $namDieuTra]
+        );
 
-
-        $seriesDataCircle_1 = [
-            [
-                'name' => 'Giới tính nam',
-                'y' => $province_report->dan_so_tu_15_den_25_tuoi - $province_report->gioi_tinh_nu_tu_15_den_25_tuoi
-            ],
-
-            [
-                'name' => 'Giới tính nữ',
-                'y' => $province_report->gioi_tinh_nu_tu_15_den_25_tuoi
-            ]
-        ];
+        if (!$province_report) {
+            return response()->json([
+                'series_1' => [
+                    ['name' => 'Giới tính nam', 'y' => 0],
+                    ['name' => 'Giới tính nữ', 'y' => 0]
+                ],
+                'total_1' => 0
+            ]);
+        }
 
         return response()->json([
-            'series_1' => $seriesDataCircle_1,
+            'series_1' => [
+                ['name' => 'Giới tính nam', 'y' =>
+                    $province_report->dan_so_tu_15_den_25_tuoi - $province_report->gioi_tinh_nu_tu_15_den_25_tuoi],
+                ['name' => 'Giới tính nữ', 'y' => $province_report->gioi_tinh_nu_tu_15_den_25_tuoi]
+            ],
             'total_1'  => $province_report->dan_so_tu_15_den_25_tuoi
         ]);
     }
 
-    public function chartProvinceDataCircle_2(){
+
+    public function chartProvinceDataCircle_2(Request $request){
 
         $provinces = Auth::user()->getAttributes();
         $province = $provinces["province_id"];
+        $namDieuTra = $request->input('years');
 
-        $province_report = DB::selectOne('SELECT * FROM provinces_report WHERE province_id = ?', [$province]);
+        $province_report = DB::selectOne(
+            'SELECT * FROM provinces_report WHERE province_id = ? AND nam_dieu_tra = ?',
+            [$province, $namDieuTra]
+        );
 
-
-        $seriesDataCircle_2 = [
-            [
-                'name' => 'Giới tính nam',
-                'y' => $province_report->dan_so_tu_15_den_35_tuoi - $province_report->gioi_tinh_nu_tu_15_den_35_tuoi
-            ],
-
-            [
-                'name' => 'Giới tính nữ',
-                'y' => $province_report->gioi_tinh_nu_tu_15_den_35_tuoi
-            ]
-        ];
+        if (!$province_report) {
+            return response()->json([
+                'series_2' => [
+                    ['name' => 'Giới tính nam', 'y' => 0],
+                    ['name' => 'Giới tính nữ', 'y' => 0]
+                ],
+                'total_2' => 0
+            ]);
+        }
 
         return response()->json([
-            'series_2' => $seriesDataCircle_2,
+            'series_2' => [
+                ['name' => 'Giới tính nam', 'y' =>
+                    $province_report->dan_so_tu_15_den_35_tuoi - $province_report->gioi_tinh_nu_tu_15_den_35_tuoi],
+                ['name' => 'Giới tính nữ', 'y' => $province_report->gioi_tinh_nu_tu_15_den_35_tuoi]
+            ],
             'total_2'  => $province_report->dan_so_tu_15_den_35_tuoi
         ]);
     }
 
-    public function chartProvinceDataCircle_3(){
+    
+    public function chartProvinceDataCircle_3(Request $request){
 
         $provinces = Auth::user()->getAttributes();
         $province = $provinces["province_id"];
+        $namDieuTra = $request->input('years');
 
-        $province_report = DB::selectOne('SELECT * FROM provinces_report WHERE province_id = ?', [$province]);
+        $province_report = DB::selectOne(
+            'SELECT * FROM provinces_report WHERE province_id = ? AND nam_dieu_tra = ?',
+            [$province, $namDieuTra]
+        );
 
-
-        $seriesDataCircle_3 = [
-            [
-                'name' => 'Giới tính nam',
-                'y' => $province_report->dan_so_tu_15_den_60_tuoi - $province_report->gioi_tinh_nu_tu_15_den_60_tuoi
-            ],
-
-            [
-                'name' => 'Giới tính nữ',
-                'y' => $province_report->gioi_tinh_nu_tu_15_den_60_tuoi
-            ]
-        ];
+        if (!$province_report) {
+            return response()->json([
+                'series_3' => [
+                    ['name' => 'Giới tính nam', 'y' => 0],
+                    ['name' => 'Giới tính nữ', 'y' => 0]
+                ],
+                'total_3' => 0
+            ]);
+        }
 
         return response()->json([
-            'series_3' => $seriesDataCircle_3,
+            'series_3' => [
+                ['name' => 'Giới tính nam', 'y' =>
+                    $province_report->dan_so_tu_15_den_60_tuoi - $province_report->gioi_tinh_nu_tu_15_den_60_tuoi],
+                ['name' => 'Giới tính nữ', 'y' => $province_report->gioi_tinh_nu_tu_15_den_60_tuoi]
+            ],
             'total_3'  => $province_report->dan_so_tu_15_den_60_tuoi
         ]);
     }

@@ -17,6 +17,8 @@
 @section('breadcrumb')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Chart Index</h1>
+
+        <select id="yearSelect" class="form-select" style="width: 200px;"></select>
     </div>
 @stop
 
@@ -35,6 +37,40 @@
     <script>
         $(function () {
             // your custom javascript
+        });
+    </script>
+
+
+    {{-- jquery province --}}
+    <script>
+        $(document).ready(function () {
+
+            $.ajax({
+                url: "/api/get-years-ward",
+                type: "GET",
+                dataType: "json",
+                success: function (res) {
+                    console.log('res:', res)
+                    let select = $("#yearSelect");
+                 
+                    select.append('<option value="">Chọn năm điều tra</option>');
+
+                    $.each(res, function(index, item) {
+                        select.append(
+                            `<option value="${item.nam_dieu_tra}">${item.nam_dieu_tra}</option>`
+                        );
+                    });
+
+
+                    if (res.length > 0) {
+                        select.val(res[0].nam_dieu_tra).trigger('change');
+                    }
+                },
+                error: function (err) {
+                    console.error("Lỗi load năm:", err);
+                }
+            });
+
         });
     </script>
 @stop

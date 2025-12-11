@@ -182,10 +182,10 @@ class AdminController extends Controller
     public function update(Request $request, $id){
 
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email'     => 'required|email|max:191',
+            'email' => 'required|unique:users,email,' . $id,
             'role_id' => 'required',
 
             'province_id' => $request->role_id == 1 ? 'required' : 'nullable',

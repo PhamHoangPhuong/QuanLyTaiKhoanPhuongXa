@@ -4,12 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ChartWardHomeController extends Controller
 {
-    public function chartWardDataColumnHome()
+    public function chartWardDataColumnHome(Request $request)
     {
-        $ward_report = DB::selectOne('SELECT * FROM wards_report');
+
+        $provinces = Auth::user()->getAttributes();
+        $province = $provinces["province_id"];
+
+        $namDieuTra = $request->input('year');
+
+        $ward_report = DB::selectOne('SELECT * FROM wards_report WHERE nam_dieu_tra = ? AND province_id = ?', [
+            $namDieuTra, $province]);
 
         $seriesDataColumnHome = [
             [
@@ -81,9 +89,14 @@ class ChartWardHomeController extends Controller
         return response()->json($seriesDataColumnHome);
     }
 
-    public function chartWardDataCircleHome(){
+    public function chartWardDataCircleHome(Request $request){
 
-        $ward_report = DB::selectOne("SELECT * FROM wards_report");
+        $wards = Auth::user()->getAttributes();
+        $ward = $wards["ward_id"];
+
+        $namDieuTra = $request->input('year');
+
+        $ward_report = DB::selectOne('SELECT * FROM wards_report WHERE nam_dieu_tra = ? AND ward_id = ?', [$namDieuTra , $ward]);
 
 
         $seriesDataCircleHome = [
@@ -102,6 +115,20 @@ class ChartWardHomeController extends Controller
             'series_home' => $seriesDataCircleHome,
             'total_home'  => $ward_report->tong_dan_so 
         ]);
+    }
+
+    public function getYearsWardColumnHome()
+    {
+        $years_column = DB::select('SELECT DISTINCT nam_dieu_tra FROM wards_report ORDER BY nam_dieu_tra ASC');
+
+        return response()->json($years_column);
+    }
+
+    public function getYearsWardCircleHome()
+    {
+        $years_circle = DB::select('SELECT DISTINCT nam_dieu_tra FROM wards_report ORDER BY nam_dieu_tra ASC');
+
+        return response()->json($years_circle);
     }
 
 }
